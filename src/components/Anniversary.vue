@@ -197,7 +197,7 @@ body {
 }
 .centered-title {
   position: absolute;
-  top: 20%;
+  top: 12%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
