@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <div class="centered-title">02.10.2023</div>
     <div class="centered-sub-text">Happy anniversary hon ❤️❤️❤️</div>
     <iframe src="https://rive.app/community/8748-16732-cattt/embed"
@@ -18,7 +18,23 @@
       allowfullscreen
     >
     </iframe>
-  </div>
+  </div> -->
+  <div class="container" id="bubble-container">
+    <div class="centered-title">02.10.2023</div>
+    <div class="centered-sub-text">Happy anniversary hon ❤️❤️❤️</div>
+    <iframe src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 1;
+    " allowfullscreen></iframe>
+</div>
 </template>
 
 <script setup>
@@ -30,37 +46,32 @@ const props = defineProps({
 })
 const canvas = ref(null);
 
-const catX = ref(0);
-const catY = ref(0);
-const laserX = ref(Math.random() * 480);
-const laserY = ref(Math.random() * 480);
-let laserDX = 2 * (Math.random() < 0.5 ? 1 : -1);
-let laserDY = 2 * (Math.random() < 0.5 ? 1 : -1);
+function createBubble() {
+  const container = document.getElementById('bubble-container');
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
 
-const moveCat = (event) => {
-  catX.value = event.offsetX - 25; // Center the cat icon
-  catY.value = event.offsetY - 25; // Center the cat icon
+  const size = Math.random() * 60 + 10; // Bubble size between 10px and 70px
+  bubble.style.width = `${size}px`;
+  bubble.style.height = `${size}px`;
+  bubble.style.left = `${Math.random() * 100}%`; // Random position across the bottom
 
-  // Check for collision with the laser dot
-  if (Math.abs(catX.value - laserX.value) < 25 && Math.abs(catY.value - laserY.value) < 25) {
-    alert('Happy Anniversary! You caught the laser!');
-    // Restart the game or end here
-  }
-};
+  container.appendChild(bubble);
 
-// Function to update the laser's position smoothly
-const moveLaser = () => {
-  laserX.value += laserDX;
-  laserY.value += laserDY;
+  // Animation
+  bubble.animate([
+      { bottom: '0px', opacity: 1 },
+      { bottom: '100%', opacity: 0 }
+  ], {
+      duration: Math.random() * 3000 + 3000, // Duration between 3s and 6s
+      easing: 'linear',
+      iterations: 1
+  }).onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
+}
 
-  // Change direction when hitting the boundary
-  if (laserX.value <= 0 || laserX.value >= 480) laserDX *= -1;
-  if (laserY.value <= 0 || laserY.value >= 480) laserDY *= -1;
-};
+// Create new bubbles periodically
+setInterval(createBubble, 1000);
 
-// Update the laser's position every 20 milliseconds for smoother movement
-setInterval(moveLaser, 20);
-// return {canvas}
 </script>
 
 
@@ -97,14 +108,14 @@ body {
   border-radius: 50%;
 }
 
-.container {
+/* .container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-}
+} */
 
 .centered-sub-text {
   position: absolute;
@@ -148,5 +159,24 @@ body {
       font-size: 12vw; /* Smaller font size on mobile devices */
       padding: 5px; /* Smaller padding on mobile devices */
     }
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1; /* Ensure the container has a defined z-index */
+}
+
+.bubble {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  opacity: 0; /* Bubbles start invisible and fade in */
+  z-index: 2; /* Higher z-index so bubbles are on top */
 }
 </style>
