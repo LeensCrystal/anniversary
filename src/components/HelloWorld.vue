@@ -1,39 +1,20 @@
 <template>
-  <!-- <div class="container">
-    <div class="centered-title">02.10.2023</div>
-    <div class="centered-sub-text">Happy anniversary hon ❤️❤️❤️</div>
-    <iframe src="https://rive.app/community/8748-16732-cattt/embed"
-      frameborder="0"
-      style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        z-index: 1;"
-      allowfullscreen
-    >
-    </iframe>
-  </div> -->
   <div class="container prevent-user-selection" id="bubble-container">
     <div class="centered-title prevent-user-selection">02.10.2023</div>
     <div class="centered-sub-text prevent-user-selection">Happy anniversary hon ❤️❤️❤️</div>
-    <iframe class="prevent-user-selection" src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        z-index: 1;
-    " allowfullscreen></iframe>
+    <iframe id="catFrame" class="prevent-user-selection" src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      z-index: 1;
+    "
+    allowfullscreen></iframe>
 </div>
 </template>
 
@@ -47,36 +28,52 @@ const props = defineProps({
 const canvas = ref(null);
 
 function createBubble() {
-  const container = document.getElementById('bubble-container');
-  const bubble = document.createElement('div');
-  bubble.classList.add('bubble');
+    const container = document.getElementById('bubble-container');
+    const iframe = document.getElementById('catFrame');
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
 
-  const size = Math.random() * 60 + 10; // Bubble size between 10px and 70px
-  bubble.style.width = `${size}px`;
-  bubble.style.height = `${size}px`;
-  bubble.style.left = `${Math.random() * 100}%`; // Random position across the bottom
+    const size = Math.random() * 60 + 10; // Bubble size between 10px and 70px
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${Math.random() * 100}%`; // Random position across the bottom
 
-  container.appendChild(bubble);
+    container.appendChild(bubble);
 
-  // Animation for bubble rising
-  const animation = bubble.animate([
-      { bottom: '0px', opacity: 1, pointerEvents: 'auto' },
-      { bottom: '100%', opacity: 0, pointerEvents: 'auto' }
-  ], {
-      duration: Math.random() * 3000 + 3000, // Duration between 3s and 6s
-      easing: 'linear',
-      iterations: 1
-  });
+    // Animation for bubble rising
+    const animation = bubble.animate([
+        { bottom: '0px', opacity: 1 },
+        { bottom: '100%', opacity: 0 }
+    ], {
+        duration: Math.random() * 5000 + 5000,  // Duration between 3s and 6s
+        easing: 'linear',
+        iterations: 1
+    });
 
-  animation.onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
+    animation.onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
 
-  // Burst effect on click/touch
-  bubble.addEventListener('click', () => {
-      bubble.style.transition = 'opacity 0.3s, transform 0.3s';
-      bubble.style.opacity = 0;
-      bubble.style.transform = 'scale(1.5)';
-      setTimeout(() => bubble.remove(), 300); // Remove the bubble after the transition
-  });
+    // Burst effect on click/touch
+    bubble.addEventListener('click', () => {
+        bubble.animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(1.2)', opacity: 0.6 },
+            { transform: 'scale(0)', opacity: 0 }
+        ], {
+            duration: 500,
+            easing: 'ease-out',
+            fill: 'forwards'
+        }).onfinish = () => bubble.remove(); // Remove the bubble after the animation
+    });
+
+    // Disable pointer events on the iframe when hovering over a bubble
+    bubble.addEventListener('mouseenter', () => {
+      iframe.style.pointerEvents = 'none';
+    });
+
+    // Re-enable pointer events when the mouse leaves the bubble
+    bubble.addEventListener('mouseleave', () => {
+      iframe.style.pointerEvents = 'auto';
+    });
 }
 
 // Create new bubbles periodically
@@ -103,13 +100,7 @@ body {
   width: 100%;
   height: 100%;
 }
-.cat {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: url('cat-icon.png'); /* Replace with your cat icon */
-  background-size: cover;
-}
+
 .laser {
   position: absolute;
   width: 20px;
@@ -117,15 +108,6 @@ body {
   background-color: red;
   border-radius: 50%;
 }
-
-/* .container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-} */
 
 .centered-sub-text {
   position: absolute;
@@ -183,13 +165,47 @@ body {
 
 .bubble {
   position: absolute;
-  bottom: 0;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.7);
-  opacity: 0; /* Bubbles start invisible and fade in */
+  height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	background-color: white;
+	background: linear-gradient(to left, #7e94bf, #88bfb0);
+	box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.2);
+	animation: linear rise2 5s;
+	animation-delay: 3s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count:3;
+	margin: 30px;
+	margin-top: 200px;
   z-index: 2; /* Higher z-index so bubbles are on top */
-  border: 15px solid transparent; /* Transparent border to increase hit area */
-  box-sizing: content-box; /* Ensures the border doesn't affect the bubble's size */
+}
+.bubble:before {
+	content: "";
+	position: absolute;
+	display: block;
+	top: 5px;
+	left: 7px;
+	height: 23px;
+	width: 23px;
+	border-radius: 50%;
+	background: #84b9bf;
+	opacity: 0.8;
+	overflow: hidden;
+  z-index: 2; /* Higher z-index so bubbles are on top */
+}
+
+.bubble:after {
+	content: "";
+	position: absolute;
+	display: block;
+	top: 15px;
+	left: 24px;
+	height: 8px;
+	width: 4px;
+	border-radius: 50%;
+	background: white;
+	overflow: hidden;
+  z-index: 2; /* Higher z-index so bubbles are on top */
 }
 
 .prevent-user-selection {
