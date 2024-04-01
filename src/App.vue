@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Anniversary from './components/Anniversary.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <Anniversary />
 </template>
 
 <style scoped>
