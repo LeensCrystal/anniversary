@@ -6,7 +6,7 @@
     </div>
     <!-- <div v-if="counter < 25" class="centered-title prevent-user-selection">{{counter}}/25</div> -->
     <transition name="fade">
-      <div v-if="counter>=25" class="centered-title prevent-user-selection">02.20.2023</div>
+      <div v-if="counter>=25" class="centered-title prevent-user-selection">02.10.2023</div>
     </transition>
     <transition name="fade">
       <div v-if="counter>=25" class="centered-sub-text prevent-user-selection">Happy anniversary hon ❤️❤️❤️</div>
