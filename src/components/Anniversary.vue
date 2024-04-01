@@ -20,6 +20,8 @@
 
 <script setup>
 import bubblePopSound from '../assets/bubble-burst.mp3';
+import { onMounted, onBeforeUnmount } from 'vue';
+
 const audio = new Audio(bubblePopSound);
 
 const playPopSound = () => {
@@ -80,6 +82,56 @@ const createBubble = () => {
     iframe.style.pointerEvents = 'auto';
   });
 }
+
+// test
+onMounted(() => {
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('touchmove', handleMove);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('mousemove', handleMove);
+  document.removeEventListener('touchmove', handleMove);
+});
+
+const handleMove = (event) => {
+  // Normalize mouse and touch events
+  const x = event.clientX || event.touches[0]?.clientX;
+  const y = event.clientY || event.touches[0]?.clientY;
+
+  if (x && y) {
+    // Check each bubble for intersection
+    document.querySelectorAll('.bubble').forEach((bubble) => {
+      const rect = bubble.getBoundingClientRect();
+      const bubbleX = rect.left + rect.width / 2;
+      const bubbleY = rect.top + rect.height / 2;
+      const distance = Math.sqrt((x - bubbleX) ** 2 + (y - bubbleY) ** 2);
+
+      // If the cursor or finger is inside the bubble
+      if (distance < rect.width / 2) {
+        burstBubble(bubble);
+      }
+    });
+  }
+};
+
+const burstBubble = (bubble) => {
+  if (!bubble.classList.contains('bursting')) { // Prevent re-bursting
+    bubble.classList.add('bursting'); // Mark as bursting to avoid double triggers
+    playPopSound()
+    bubble.animate([
+        { transform: 'scale(1)', opacity: 1 },
+        { transform: 'scale(1.2)', opacity: 0.6 },
+        { transform: 'scale(0)', opacity: 0 }
+    ], {
+        duration: 500,
+        easing: 'ease-out',
+        fill: 'forwards'
+    }).onfinish = () => bubble.remove();
+  }
+};
+// test
+
 
 // Create new bubbles periodically
 setInterval(createBubble, 500);
