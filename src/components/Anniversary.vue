@@ -19,65 +19,70 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Rive } from '@rive-app/canvas';
+import bubblePopSound from '../assets/bubble-burst.mp3';
+const audio = new Audio(bubblePopSound);
 
-const props = defineProps({
-  msg: String,
-})
-const canvas = ref(null);
+const playPopSound = () => {
+  audio.src = bubblePopSound;
+  audio.type = 'audio/mp3';
+  audio.currentTime = 0; // Rewind to the start
+  audio.play();
+};
 
-function createBubble() {
-    const container = document.getElementById('bubble-container');
-    const iframe = document.getElementById('catFrame');
-    const bubble = document.createElement('div');
-    bubble.classList.add('bubble');
+const createBubble = () => {
+  const container = document.getElementById('bubble-container');
+  const iframe = document.getElementById('catFrame');
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
 
-    const size = Math.random() * 60 + 10; // Bubble size between 10px and 70px
-    bubble.style.width = `${size}px`;
-    bubble.style.height = `${size}px`;
-    bubble.style.left = `${Math.random() * 100}%`; // Random position across the bottom
+  const size = Math.random() * 60 + 10; // Bubble size between 10px and 70px
+  bubble.style.width = `${size}px`;
+  bubble.style.height = `${size}px`;
+  bubble.style.left = `${Math.random() * 100}%`; // Random position across the bottom
 
-    container.appendChild(bubble);
+  container.appendChild(bubble);
 
-    // Animation for bubble rising
-    const animation = bubble.animate([
-        { bottom: '0px', opacity: 1 },
-        { bottom: '100%', opacity: 0 }
-    ], {
-        duration: Math.random() * 5000 + 5000,  // Duration between 3s and 6s
-        easing: 'linear',
-        iterations: 1
-    });
+  // Animation for bubble rising
+  const animation = bubble.animate([
+      { bottom: '0px', opacity: 1 },
+      { bottom: '100%', opacity: 0 }
+  ], {
+      duration: Math.random() * 5000 + 5000,  // Duration between 3s and 6s
+      easing: 'linear',
+      iterations: 1
+  });
 
-    animation.onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
 
-    // Burst effect on click/touch
-    bubble.addEventListener('click', () => {
-        bubble.animate([
-            { transform: 'scale(1)', opacity: 1 },
-            { transform: 'scale(1.2)', opacity: 0.6 },
-            { transform: 'scale(0)', opacity: 0 }
-        ], {
-            duration: 500,
-            easing: 'ease-out',
-            fill: 'forwards'
-        }).onfinish = () => bubble.remove(); // Remove the bubble after the animation
-    });
 
-    // Disable pointer events on the iframe when hovering over a bubble
-    bubble.addEventListener('mouseenter', () => {
-      iframe.style.pointerEvents = 'none';
-    });
+  animation.onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
 
-    // Re-enable pointer events when the mouse leaves the bubble
-    bubble.addEventListener('mouseleave', () => {
-      iframe.style.pointerEvents = 'auto';
-    });
+  // Burst effect on click/touch
+  bubble.addEventListener('click', () => {
+      playPopSound()
+      bubble.animate([
+          { transform: 'scale(1)', opacity: 1 },
+          { transform: 'scale(1.2)', opacity: 0.6 },
+          { transform: 'scale(0)', opacity: 0 }
+      ], {
+          duration: 500,
+          easing: 'ease-out',
+          fill: 'forwards'
+      }).onfinish = () => bubble.remove(); // Remove the bubble after the animation
+  });
+
+  // Disable pointer events on the iframe when hovering over a bubble
+  bubble.addEventListener('mouseenter', () => {
+    iframe.style.pointerEvents = 'none';
+  });
+
+  // Re-enable pointer events when the mouse leaves the bubble
+  bubble.addEventListener('mouseleave', () => {
+    iframe.style.pointerEvents = 'auto';
+  });
 }
 
 // Create new bubbles periodically
-setInterval(createBubble, 1000);
+setInterval(createBubble, 500);
 
 </script>
 
