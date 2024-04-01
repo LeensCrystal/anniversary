@@ -1,48 +1,23 @@
 <template>
-  <div id="app" @mousemove="moveCat">
-    <!-- <div class="cat" :style="{ left: `${catX}px`, top: `${catY}px` }"></div> -->
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
-      <h1 style="
-          position: absolute;
-          top: 80%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          color: white;
-          background: transparent;
-          padding: 20px;
-          width: 100% !important;
-          margin: 0;
-          z-index: 2;
-      " class="marg">Happy Anniversary hon!!! ❤️❤️❤️</h1>
-      <h1 style="
-          position: absolute;
-          top: 20%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          color: white;
-          background: transparent;
-          padding: 20px;
-          width: 100% !important;
-          margin: 0;
-          z-index: 2;
-      " class="marg">02.10.2023</h1>
-      <iframe src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: none;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          z-index: 1;
-      " allowfullscreen></iframe>
-    </div>
-
-
+  <div class="container">
+    <div class="centered-title">02.10.2023</div>
+    <div class="centered-sub-text">Happy anniversary hon ❤️❤️❤️</div>
+    <iframe src="https://rive.app/community/8748-16732-cattt/embed"
+      frameborder="0"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 1;"
+      allowfullscreen
+    >
+    </iframe>
   </div>
 </template>
 
@@ -89,7 +64,10 @@ setInterval(moveLaser, 20);
 </script>
 
 
-<style scoped>
+<style>
+body {
+  background-color: #b0aac1 !important;
+}
 .read-the-docs {
   color: #888;
 }
@@ -103,7 +81,6 @@ setInterval(moveLaser, 20);
   position: relative;
   width: 100%;
   height: 100%;
-  /* border: 2px solid black; */
 }
 .cat {
   position: absolute;
@@ -118,5 +95,58 @@ setInterval(moveLaser, 20);
   height: 20px;
   background-color: red;
   border-radius: 50%;
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.centered-sub-text {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: #b0aac1 !important;
+  padding: 10px;
+  margin: 0;
+  z-index: 2;
+  width: 100% !important;
+  font-size: 4vw; /* Adjust the font size as needed */
+  font-family: 'Margherita', sans-serif;
+}
+.centered-title {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: #b0aac1 !important;
+  padding: 10px;
+  margin: 0;
+  z-index: 2;
+  width: 100% !important;
+  font-size: 4vw; /* Adjust the font size as needed */
+  font-family: 'Margherita', sans-serif;
+}
+
+/* Media query for devices with a width of up to 600px */
+@media (max-width: 600px) {
+    .centered-sub-text {
+      font-size: 12vw; /* Smaller font size on mobile devices */
+      padding: 5px; /* Smaller padding on mobile devices */
+    }
+
+    .centered-title {
+      font-size: 12vw; /* Smaller font size on mobile devices */
+      padding: 5px; /* Smaller padding on mobile devices */
+    }
 }
 </style>
