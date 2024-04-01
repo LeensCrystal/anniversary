@@ -19,10 +19,10 @@
     >
     </iframe>
   </div> -->
-  <div class="container" id="bubble-container">
-    <div class="centered-title">02.10.2023</div>
-    <div class="centered-sub-text">Happy anniversary hon ❤️❤️❤️</div>
-    <iframe src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
+  <div class="container prevent-user-selection" id="bubble-container">
+    <div class="centered-title prevent-user-selection">02.10.2023</div>
+    <div class="centered-sub-text prevent-user-selection">Happy anniversary hon ❤️❤️❤️</div>
+    <iframe class="prevent-user-selection" src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
         position: absolute;
         top: 0;
         left: 0;
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue'
+import { ref } from 'vue'
 import { Rive } from '@rive-app/canvas';
 
 const props = defineProps({
@@ -190,5 +190,11 @@ body {
   z-index: 2; /* Higher z-index so bubbles are on top */
   border: 15px solid transparent; /* Transparent border to increase hit area */
   box-sizing: content-box; /* Ensures the border doesn't affect the bubble's size */
+}
+
+.prevent-user-selection {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 </style>
