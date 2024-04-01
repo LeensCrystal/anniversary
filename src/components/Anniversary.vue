@@ -1,7 +1,16 @@
 <template>
   <div class="container prevent-user-selection" id="bubble-container">
-    <div class="centered-title prevent-user-selection">02.10.2023</div>
-    <div class="centered-sub-text prevent-user-selection">Happy anniversary hon ❤️❤️❤️</div>
+    <div v-if="counter < 25" class="centered-title prevent-user-selection">
+      <div>Help this little <span style="color: brown;">Julian</span> burst some bubbles!</div>
+      <div>{{counter}}/25</div>
+    </div>
+    <!-- <div v-if="counter < 25" class="centered-title prevent-user-selection">{{counter}}/25</div> -->
+    <transition name="fade">
+      <div v-if="counter>=25" class="centered-title prevent-user-selection">02.20.2023</div>
+    </transition>
+    <transition name="fade">
+      <div v-if="counter>=25" class="centered-sub-text prevent-user-selection">Happy anniversary hon ❤️❤️❤️</div>
+    </transition>
     <iframe id="catFrame" class="prevent-user-selection" src="https://rive.app/community/8748-16732-cattt/embed" frameborder="0" style="
       position: absolute;
       top: 0;
@@ -20,9 +29,10 @@
 
 <script setup>
 import bubblePopSound from '../assets/bubble-burst.mp3';
-import { onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const audio = new Audio(bubblePopSound);
+let counter = ref(0)
 
 const playPopSound = () => {
   audio.src = bubblePopSound;
@@ -60,6 +70,8 @@ const createBubble = () => {
 
   // Burst effect on click/touch
   bubble.addEventListener('click', () => {
+      counter.value++
+      console.log(counter)
       playPopSound()
       bubble.animate([
           { transform: 'scale(1)', opacity: 1 },
@@ -119,6 +131,8 @@ const burstBubble = (bubble) => {
   if (!bubble.classList.contains('bursting')) { // Prevent re-bursting
     bubble.classList.add('bursting'); // Mark as bursting to avoid double triggers
     playPopSound()
+    counter.value++
+    console.log(counter)
     bubble.animate([
         { transform: 'scale(1)', opacity: 1 },
         { transform: 'scale(1.2)', opacity: 0.6 },
@@ -269,5 +283,13 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1.5s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>
