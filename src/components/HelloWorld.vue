@@ -58,15 +58,25 @@ function createBubble() {
 
   container.appendChild(bubble);
 
-  // Animation
-  bubble.animate([
-      { bottom: '0px', opacity: 1 },
-      { bottom: '100%', opacity: 0 }
+  // Animation for bubble rising
+  const animation = bubble.animate([
+      { bottom: '0px', opacity: 1, pointerEvents: 'auto' },
+      { bottom: '100%', opacity: 0, pointerEvents: 'auto' }
   ], {
       duration: Math.random() * 3000 + 3000, // Duration between 3s and 6s
       easing: 'linear',
       iterations: 1
-  }).onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
+  });
+
+  animation.onfinish = () => bubble.remove(); // Remove the bubble at the end of the animation
+
+  // Burst effect on click/touch
+  bubble.addEventListener('click', () => {
+      bubble.style.transition = 'opacity 0.3s, transform 0.3s';
+      bubble.style.opacity = 0;
+      bubble.style.transform = 'scale(1.5)';
+      setTimeout(() => bubble.remove(), 300); // Remove the bubble after the transition
+  });
 }
 
 // Create new bubbles periodically
@@ -178,5 +188,7 @@ body {
   background-color: rgba(255, 255, 255, 0.7);
   opacity: 0; /* Bubbles start invisible and fade in */
   z-index: 2; /* Higher z-index so bubbles are on top */
+  border: 15px solid transparent; /* Transparent border to increase hit area */
+  box-sizing: content-box; /* Ensures the border doesn't affect the bubble's size */
 }
 </style>
