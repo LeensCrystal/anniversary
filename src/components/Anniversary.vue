@@ -285,11 +285,13 @@ body {
   user-select: none; /* Standard syntax */
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1.5s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 5s ease;
 }
 
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
