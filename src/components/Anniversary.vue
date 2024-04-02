@@ -71,7 +71,6 @@ const createBubble = () => {
   // Burst effect on click/touch
   bubble.addEventListener('click', () => {
       counter.value++
-      console.log(counter)
       playPopSound()
       bubble.animate([
           { transform: 'scale(1)', opacity: 1 },
@@ -132,7 +131,6 @@ const burstBubble = (bubble) => {
     bubble.classList.add('bursting'); // Mark as bursting to avoid double triggers
     playPopSound()
     counter.value++
-    console.log(counter)
     bubble.animate([
         { transform: 'scale(1)', opacity: 1 },
         { transform: 'scale(1.2)', opacity: 0.6 },
