@@ -37,6 +37,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
+      - name: Set homepage in package.json
+        run: npm pkg set homepage="https://leenscrystal.github.io/anniversary/"
       - name: Build
         run: npm run build
       - name: Setup Pages
