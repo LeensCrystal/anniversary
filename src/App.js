@@ -87,7 +87,6 @@ export default function App() {
     // Burst effect on click/touch
     bubble.addEventListener('click', () => {
         setCounter((prevCounter) => prevCounter + 1);
-        console.log('Counter',counter)
         playPopSound()
         bubble.animate([
             { transform: 'scale(1)', opacity: 1 },
@@ -113,7 +112,6 @@ export default function App() {
       // This function will be called when the component is about to unmount
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('touchmove', handleMove);
-      console.log('Component will unmount');
     };
   }, []); // The empty array ensures this effect is only applied once
 
@@ -152,7 +150,6 @@ export default function App() {
       bubble.classList.add('bursting'); // Mark as bursting to avoid double triggers
       playPopSound()
       setCounter((prevCounter) => prevCounter + 1);
-      console.log('Counter',counter)
       bubble.animate([
           { transform: 'scale(1)', opacity: 1 },
           { transform: 'scale(1.2)', opacity: 0.6 },
